@@ -33,7 +33,7 @@ public class TodoController {
     @DeleteMapping("/delete")
     public ResponseEntity<HttpStatus> deleteTodo(@RequestParam int id) {
             todoService.deleteTodoById(id);
-            return new ResponseEntity<>(HttpStatus.OK); //massage: deleted
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/getTodo/{todo-id}")

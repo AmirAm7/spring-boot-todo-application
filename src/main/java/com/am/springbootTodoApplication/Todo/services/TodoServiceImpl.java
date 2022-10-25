@@ -1,4 +1,5 @@
 package com.am.springbootTodoApplication.Todo.services;
+import com.am.springbootTodoApplication.Todo.configs.Validator;
 import com.am.springbootTodoApplication.Todo.exception.ResourceNotFoundException;
 import com.am.springbootTodoApplication.Todo.models.enums.State;
 import com.am.springbootTodoApplication.Todo.repositories.TodoRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,6 +17,8 @@ public class TodoServiceImpl implements TodoService{
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private Validator validator;
     @Override
     public Todo createNewTodo (Todo todo){
         todoRepository.save(todo);
@@ -23,7 +27,12 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public List<Todo> findAllTodos (int limit, int offset){
-      return todoRepository.getAllTodos(limit, offset);
+        List<Map<String, String>> errors = validator.todoValidator(limit, offset);
+        List<Todo> todos = todoRepository.getAllTodos(limit, offset);
+        if (errors.size() > 0) {
+            throw new ResourceNotFoundException("message: ", errors);
+        }
+        return todos;
     }
 
     @Override

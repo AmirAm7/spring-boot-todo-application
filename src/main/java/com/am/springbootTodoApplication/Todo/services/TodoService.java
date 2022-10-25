@@ -11,7 +11,6 @@ public interface TodoService {
     Todo findTodoById(int id);
     List<Todo> findeTodosByFilter(String filter);
     List<Todo> findAllTodos (int limit, int offset);
-   // String findDifferenceTimeToDoWork (Todo todo);
-    // void fixtDifferenceTimeToDoWork (List<Todo> todos);
+
 
 }
