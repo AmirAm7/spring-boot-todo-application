@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,13 +26,13 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public List<Todo> findAllTodos (int limit, int offset){
-        List<Map<String, String>> errors = validator.todoValidator(limit, offset);
-        List<Todo> todos = todoRepository.getAllTodos(limit, offset);
-        if (errors.size() > 0) {
-            throw new ResourceNotFoundException("message: ", errors);
+        List<Todo> todos = null;
+        if (validator.todoValidator(limit, offset)) {
+            todos = todoRepository.getAllTodos(limit, offset);
         }
         return todos;
     }
+
 
     @Override
     public List<Todo> findeTodosByFilter(String filter) {

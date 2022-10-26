@@ -1,5 +1,7 @@
 package com.am.springbootTodoApplication.Todo.exception;
+//import com.am.springbootTodoApplication.Todo.configs.Validator;
 import com.am.springbootTodoApplication.Todo.models.ErrorResponse;
+import com.am.springbootTodoApplication.Todo.models.ValidationResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.NotAcceptableStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +22,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-
         ErrorResponse message = new ErrorResponse("404",
                 ex.getMessage());
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NotAcceptableStatusException.class)
+    public ResponseEntity<ValidationResponse> handleResourceNotFoundException(NotAcceptableStatusException ex, WebRequest request) {
+        ValidationResponse message = new ValidationResponse("400", ex.getMessage());
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -46,5 +53,4 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         }
             return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
     }
-
 }

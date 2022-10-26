@@ -1,13 +1,17 @@
 package com.am.springbootTodoApplication.services;
+import com.am.springbootTodoApplication.Todo.configs.Validator;
 import com.am.springbootTodoApplication.Todo.exception.ResourceNotFoundException;
 import com.am.springbootTodoApplication.Todo.models.entities.Todo;
+import com.am.springbootTodoApplication.Todo.models.mapper.Mapper;
 import com.am.springbootTodoApplication.Todo.repositories.TodoRepository;
 import com.am.springbootTodoApplication.Todo.services.TodoServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.transaction.TransactionSystemException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -18,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(value = MockitoExtension.class)
 public class TodoServiceTest {
 
@@ -28,6 +31,11 @@ public class TodoServiceTest {
     @Mock
     private TodoRepository mockTodoRepository;
 
+    private Validator validator;
+    @BeforeEach
+    public void setUp(){
+        Validator validator = new Validator();
+    }
     public Todo generateTodo(int id, String description, String title, boolean isDone ){
         return Todo.builder()
                 .id(id)
