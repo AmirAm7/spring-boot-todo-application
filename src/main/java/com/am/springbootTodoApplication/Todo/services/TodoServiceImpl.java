@@ -1,6 +1,7 @@
 package com.am.springbootTodoApplication.Todo.services;
 import com.am.springbootTodoApplication.Todo.configs.Validator;
 import com.am.springbootTodoApplication.Todo.exception.ResourceNotFoundException;
+import com.am.springbootTodoApplication.Todo.exception.ValidatorException;
 import com.am.springbootTodoApplication.Todo.models.enums.State;
 import com.am.springbootTodoApplication.Todo.repositories.TodoRepository;
 import com.am.springbootTodoApplication.Todo.models.entities.Todo;
@@ -25,9 +26,9 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<Todo> findAllTodos (int limit, int offset){
+    public List<Todo> findAllTodos (int limit, int offset) throws ValidatorException {
         List<Todo> todos = null;
-        if (validator.todoValidator(limit, offset)) {
+        if (validator.todoValidator(offset, limit )) {
             todos = todoRepository.getAllTodos(limit, offset);
         }
         return todos;
