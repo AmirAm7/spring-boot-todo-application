@@ -28,7 +28,7 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public List<Todo> findAllTodos (int limit, int offset) throws ValidatorException {
         List<Todo> todos = null;
-        if (validator.todoValidator(offset, limit )) {
+        if (validator.todoValidator(limit, offset)) {
             todos = todoRepository.getAllTodos(limit, offset);
         }
         return todos;

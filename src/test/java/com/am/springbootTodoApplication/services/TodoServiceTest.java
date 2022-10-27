@@ -31,6 +31,7 @@ public class TodoServiceTest {
     @Mock
     private TodoRepository mockTodoRepository;
 
+    @Mock
     private Validator validator;
     @BeforeEach
     public void setUp(){
@@ -63,6 +64,7 @@ public class TodoServiceTest {
     @Test
     public void givenFilterLimit_whenGetAllTodos_thenSizeOfListOk(){
         when(mockTodoRepository.getAllTodos(5,2)).thenReturn(getAllTodos());
+        when(validator.todoValidator(5,2)).thenReturn(true);
         assertEquals(3, todoService.findAllTodos(5,2).size());
     }
 
